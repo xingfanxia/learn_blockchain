@@ -5,6 +5,7 @@
 - [比特币背后的密码学原理](https://www.jianshu.com/p/225ff9439132)
 - [bitcoin and blockchain: what math puzzle do miners actually solve? example with real transactions](https://steemit.com/bitcoin/@cryptovest/bitcoin-and-blockchain-what-math-puzzle-do-miners-actually-solve)
 - [Learn Blockchains by Building One](https://hackernoon.com/learn-blockchains-by-building-one-117428612f46)
+- [区块链技术学习指引](https://learnblockchain.cn/2018/01/11/guide/#more)
 
 ### Community Guides (Chinese)
 

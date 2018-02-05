@@ -60,7 +60,9 @@
       Given a 'puzzle ID' id(from high min-entropy distrib) and a targe set Y, try to find a 'solution' x s.t. H(id | x) in Y.
       ```
 
-### Example: SHA-256 hash function![sha-256](sha-256.png)
+### Example: SHA-256 hash function
+
+![sha-256](sha-256.png)
 
 Algo walkthrough:
 
@@ -70,3 +72,67 @@ Algo walkthrough:
 4. Repeat until no blocks left; return hash.
 
 **Th.** If `c` is collision-free, then `SHA-256` is collsiion free.
+
+## Lecture 2 Hash pointers
+
+### Hash pointer
+
+- Pointer to where some info is stored
+- and cryptographic hash of the info
+- just like normal pointers, but not only where it is stored but also the hash of its data
+
+With hash pointer, we can
+
+- ask to get the info back
+- certify that it hasn't changed
+
+### Key idea: Build data structure with hash pointers
+
+#### Example: Linkedlist with Hash pointers (blockchain)![ll_hashpointers](ll_hashpointers.png)
+
+- we can build temper-evident log (If someone mess with data earlier we can detect it)
+
+#### Example: binary tree with hash pointers (Merkle tree)
+
+![merkle tree](merkle tree.png)
+
+- Advantages:
+  - Holds many items but only need to remember the root hash
+  - Can verify membership in $O(\log n)$ time
+- Variant: sorted Merkle tree (binary search tree with hash pointers)
+  - can verify non-membership in $O(\log n)$ time (Prove nothing in between)
+
+#### Generally
+
+- Can use hash pointers in any pointer-based data structure that has not cycles
+
+## Lecture 3 Digital Signatures
+
+### Features of Signatures
+
+- Only you can sign, but anyone can verify
+- Signature is tied to particular document; can't be copy-and-pasted to another document
+
+### API for digital signatures
+
+```
+(sk, pk) := generateKeys(keysize)
+sig := sign(sk, message)
+isValid := verify(pk, message, sig)
+```
+
+#### Requirements for signatures
+
+- Valid signatures verify
+
+  `verify(pk, message, sign(sk,message)) == true`
+
+- Can't forge signatures
+
+  - Adversary who
+    - knows pk
+    - gets to see signatures on messages of his choice
+  - can't produce a verifiable signature on another message
+
+#### Practical stuff
+

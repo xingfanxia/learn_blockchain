@@ -136,3 +136,44 @@ isValid := verify(pk, message, sig)
 
 #### Practical stuff
 
+- Algorithms are randomized
+  - good source of randomness required
+- Limit on message isze
+  - fix: use Hash(message) rather than message
+- Fun trick: sign a hash pointer
+  - signatures covers the whole structure (sign the entire content)
+- Bitcoins uses `ECDSA(Elliptic Curve Digital Signature Algorithm)` standard
+  - relies on extremely complicated maths
+  - good randomness is extremely essential for ECDSA
+
+## Lecture 4 Public Keys as Identities
+
+### Useful trick: `pulic key == an identity`
+
+- if you see `sig` s.t. `verify(pk, msg, sig) == true` ,
+
+  In order to speak as `pk`, you need to have the matching private key `sk`.
+
+### How to make a new identity
+
+- create a new random key-pair `(sk, pk)`
+- `pk` is the pubic "name" you can use, normally `H(pk)` as `pk` is large
+- `sk` let's you speak as `pk`
+- you control the identity because only you know `sk`
+- if `pk` looks random, nobody needs to know who you are
+
+### Decentralized identity management
+
+- No need to use username, etc
+- anyone can make a new identity anytime and make as many as wanted
+- no central point of coordination
+- these identities are called `address` or `wallet_address` in `Bitcoin`
+
+### Privacy (how private it is)
+
+- Addresses not directly connected to real-word identity
+- But observer can link together an address's activity over time, make inferences
+- Will talk this later
+
+### Lecture 5 A simple Cryptocurrency
+

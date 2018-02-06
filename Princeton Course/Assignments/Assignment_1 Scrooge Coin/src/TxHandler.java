@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class TxHandler {
 
     /**
@@ -5,8 +7,10 @@ public class TxHandler {
      * {@code utxoPool}. This should make a copy of utxoPool by using the UTXOPool(UTXOPool uPool)
      * constructor.
      */
+    private UTXOPool uPool;
+
     public TxHandler(UTXOPool utxoPool) {
-        // IMPLEMENT THIS
+        this.uPool = new UTXOPool(utxoPool);
     }
 
     /**
@@ -19,7 +23,12 @@ public class TxHandler {
      *     values; and false otherwise.
      */
     public boolean isValidTx(Transaction tx) {
-        // IMPLEMENT THIS
+        ArrayList<Transaction.Output> outputs = tx.getOutputs();
+        ArrayList<Transaction.Input> inputs = tx.getInputs();
+
+        for (int i = 0; i< outputs.size(); i++) {
+            if
+        }
     }
 
     /**

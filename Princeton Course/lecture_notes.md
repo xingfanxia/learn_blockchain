@@ -175,5 +175,86 @@ isValid := verify(pk, message, sig)
 - But observer can link together an address's activity over time, make inferences
 - Will talk this later
 
-### Lecture 5 A simple Cryptocurrency
+## Lecture 5 A simple Cryptocurrency
+
+### Goofy Coin: Simplest Cryptocurrency
+
+#### Rules:
+
+- Goofy can create new coins that belongs to him
+
+  ![goofy_create_coin](goofy_create_coin.png)
+
+  `CreateCoin[uuid]` singed by `pk_goof`
+
+- A coin's owner can spend it
+
+  ![goofy_spend_coin](goofy_spend_coin.png)
+
+  - make a statement `pay to pk_alice` with hash pointer signed by `pk_goofy`
+
+- The recipient can pass on the coin again
+
+  ![pass_along](pass_along.png)
+
+#### Problems
+
+double-spending attack (one of the major design challenges)
+
+![double-spending attack](double-spending attack.png)
+
+- both `Bob` and `Chuck` has a valid claim on the coin
+
+### Scrooge Coin
+
+#### Changes
+
+- on top of goofy coin
+
+- Scrooge publishes a history of all transactions(a blockchain signed by Scrooge)
+
+  ![scrooge_blockchain](scrooge_blockchain.png)
+
+- Optimization: put multiple transactions in the same block
+
+- Now everyone can detect double-spending
+
+- New `CreateCoins` transaction
+
+  ![createCoins transaction](createCoins transaction.png)
+
+- New `PayCoin` transaction: 
+
+  ![PayCoins](PayCoins.png)
+
+  - consumes some coins and creates new coins of the same total value
+  - Valid if
+    - consumed coins valid
+    - not already consumed
+    - total value out = total value in
+    - signed by owners of all consumed coins
+
+- New **<u>Immutable</u>** `Coin`
+
+  - Coins can't be transferred, subdivided, or combined
+  - But you can achieve the same effect by using transactions to subdivide
+    - Create new trans that consume your coin and pay out two new coins to yourself with a same total value
+
+#### Problem: Centralization
+
+- Scrooge can be misbehaving
+
+- Scrooge have to operate his functions all the time
+
+- how to operate **without** any central, trusted party
+
+- Problems to solve:
+
+  If we can solve all of these problems, then we can build a currency that is very much like BitCoin. Which is like ScroogeCoin but without a centralized party.
+
+  - How everyone can agree upon a single published block chain that is the agreed upon history which transactions have happened?
+  - How people can agree which transactions are valid and which transactions have actually occurred?
+  - How we can assign IDs to things in a decentralized way? 
+
+#### Assignment: Scrooge Coin's public ledger
 

@@ -1,3 +1,5 @@
+# Chapter 1 Basic Cryptography related
+
 ## Lecture 1 Hash function
 
 ### Hash function:
@@ -257,4 +259,138 @@ double-spending attack (one of the major design challenges)
   - How we can assign IDs to things in a decentralized way? 
 
 #### Assignment: Scrooge Coin's public ledger
+
+
+
+# Chapter 2 How Bitcoin achieves Decentralization
+
+## Lecture 1 Centralization vs. Decentralization
+
+### Decentralization is not "all-or-nothing"
+
+- Email: Decentralized protocol (`smtp`), but dominated by centralized webmail services(`gmail`, `outlook`).
+
+### Questions to answer about decentralization in Bitcoin
+
+- Who maintains the ledger?
+- Who has authority over which transactions are valid?
+- Who creates new bitcoins?
+- Who determines how the rules of the system change?
+- How do bitcoins acquire exchange value?
+- Beyond the protocol:
+  - Exchanges
+  - Wallet software
+  - Service providers
+
+### Aspects of decentralization in Bitcoin
+
+- P2P (Peer-to-Peer) Network
+
+  Open to anyone, low barrier to entry
+
+- Mining
+
+  Open to anyone, but inevitable concentration of power often seen as undesirable.
+
+  Mainly due to the computing resource required to solve hard computational problem
+
+- Updates to software
+
+  Core developers trusted by community, they have a lot of power
+
+## Lecture 2 Distributed Consensus
+
+### Bitcoin's key challenge: <u>Distributed Consensus</u>
+
+####Why consensus protocols?
+
+- Traditional motivation: reliability in distributed systems. 
+
+  *e.g. Possible database inconsistency issue*
+
+- **<u>Distributed K-V store</u>**: enables various applications like
+
+  DNS, public key directory, stock trades
+
+#### Defining Distributed Consensus
+
+- The protocol terminates
+- All correct nodes decide on same **value**
+- This **value** must have been proposed by some correct nodes
+
+### Bitcoin is a peer-to-peer system
+
+![bitcoin_p2p](bitcoin_p2p.png)
+
+- When `Alice` wants to pay Bob:
+  She broadcasts the transaction to all Bitcoin nodes
+  - Alice's Signature
+  - Bob's `pubkey`
+  - Hash: hash pointer to the *"history"* of this coin
+- Bob's computer is not in the picture
+  - bitcoin is his no matter if he knows
+- Order of transaction sequence
+- Which nodes receive the broadcast
+
+### How consensus "<u>could</u>" work in Bitcoin
+
+![consensus_candidate](consensus_candidate.png)
+
+At any given time:
+
+- All nodes have a sequence of **<u>blocks of transactions</u>** they've reached consensus on.
+- Each node has a set of outstanding transactions it's heard about
+
+### Why consensus is hard (technically)
+
+- Nodes may crash
+
+- Nodes may be malicious
+
+- Network is imperfect
+
+  - Not all pairs of nodes connected
+  - Faults in network
+  - Latency
+    - No notion of global time
+    - Not all nodes can agree to order of events by looking at timestamps, can't determine which transaction happens first
+
+- Many impossibility results
+
+  - Byzantine generals problem
+
+    - [**How the Byzantine General Sacked the Castle: A Look Into Blockchain**](https://medium.com/@DebrajG/how-the-byzantine-general-sacked-the-castle-a-look-into-blockchain-370fe637502c)
+    - [The Byzantine Generals’ Problem](https://medium.com/all-things-ledger/the-byzantine-generals-problem-168553f31480)
+    - [Byzantine General's Problem Paper by EECS Berkeley](https://people.eecs.berkeley.edu/~luca/cs174/byzantine.pdf)
+
+  - Fischer-Lunch-Paterson (deterministic nodes)
+
+    Consensus impossible with a **<u>single</u>** faulty node
+
+- Well-known protocols to solve this problems
+
+  - Paxos
+    - Never produces inconsistent result
+    - Can (rarely) get stuck, fail to make any progress
+
+- Understanding impossibility results
+
+  - These tests are developed around the concept of distributed databases, not necessarily bitcoin
+
+
+  - Bitcoin consensus works better in practice than in theory
+  - Theory is still catching up
+  - But theory is important as it can help predict unforeseen attacks
+
+### Some things Bitcoin does differently
+
+Bitcoin does not quite solve **<u>Distributed Consensus</u>** Problem in a general sense, but solves it in the context of a currency system.
+
+- Introduces incentives
+  - Possible only because it's a currency
+- Embraces randomness
+  - Does away with the notion of a specific end-point
+  - Consensus happens over long time scales — about 1 hour
+    - But even at the end of that time, you're not a 100% sure that a transaction or a block that you're interested in has made it into the consensus block chain. Instead, as time goes on, your probability goes up higher and higher. And the probability that you're wrong in making an assumption about a transaction goes down exponentially. 
+    - So that's the kind of inherently probabilistic guarantee that Bitcoin gives you. And that's why it's able to completely get around these traditional impossibility results on distributed consensus protocols. 
 

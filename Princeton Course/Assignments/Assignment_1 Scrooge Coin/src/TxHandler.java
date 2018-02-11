@@ -46,17 +46,17 @@ public class TxHandler {
             if (!Crypto.verifySignature(outputs.get(i).address, tx.getRawTx(), inputs.get(i).signature))
                 return false;
 
+            //(4) all of {@code tx}s output values are non-negative
             if (outputs.get(i).value < 0)
                 return false;
+
             checkDup.add(new UTXO(inputs.get(i).prevTxHash, inputs.get(i).outputIndex));
         }
         Set<UTXO> checkDupset = new HashSet<UTXO>(checkDup);
+        //(3) no UTXO is claimed multiple times by {@code tx}
         if (checkDupset.size() < checkDup.size())
             return false;
 
-        for  (int j = 0; j < outputs.size(); j++) {
-            if (Crypto.verifySignature(input.signature))
-        }
 
     }
 

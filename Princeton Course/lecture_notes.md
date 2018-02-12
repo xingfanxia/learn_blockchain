@@ -394,3 +394,132 @@ Bitcoin does not quite solve **<u>Distributed Consensus</u>** Problem in a gener
     - But even at the end of that time, you're not a 100% sure that a transaction or a block that you're interested in has made it into the consensus block chain. Instead, as time goes on, your probability goes up higher and higher. And the probability that you're wrong in making an assumption about a transaction goes down exponentially. 
     - So that's the kind of inherently probabilistic guarantee that Bitcoin gives you. And that's why it's able to completely get around these traditional impossibility results on distributed consensus protocols. 
 
+## Lecture 3 Consensus without Identity: the Block Chain
+
+### Why identity?
+
+- Pragmatic: some protocols need node IDs
+- Security: assume less than 50% malicious
+
+### Why don't Bitcoin nodes have identities?
+
+- Identity is hard in a P2P system — Sybil attack
+- Pseudonymity is a goal of Bitcoin
+
+### Weaker Assumption: select random node
+
+- Analogy: lottery or raffle
+- When tracking & verifying identities is hard, we give people tokens. tickets, etc
+- Now we can pick a random ID & select that node 
+
+### Key idea: implicit consensus
+
+- In each round ,random node is picked
+- This node proposed the next block in the chain
+- Other nodes implicitly accept/reject this block
+  - by either extending it
+  - or ignoring it and extending the chain from earlier block
+- Recall every block contains hash of the block it extends
+
+### Bitcoin consensus algorithm (simplified)
+
+- New transactions are broadcast to all nodes
+- Each node collects new transactions into a block
+- In each round, a **<u>random</u>** node gets to broadcast its block
+- Other nodes accept the block only if all transactions in it are valid(unspent, valid signatures)
+- Nodes express their acceptance of the block by including its hash in the next block they create
+
+### Why this works by looking at what can a malicious node do?
+
+- Attackers can't steal bitcoins belong to others. 
+
+  As she can't forge their signatures. As long as the crypto is solid, this is impossible.
+
+- Attacker can deny service to some user. 
+
+  But this is minor as nodes are selected at random to propose its block. Some honest node will propose its correct block sometime afterwards.
+
+- Attackers can start double-spending attacks. 
+
+### How to prevent double spending in blockchain?
+
+#### A valid transaction
+
+Suppose this is `Alice` is buying some merchant from merchant `Bob`  and the payment is done with `Bitcoin`.
+
+ A valid transaction could look like this:
+
+![legit_transaction](legit_transaction.png)
+
+- Alice is paying Bob with a bitcoin $C_A$ signed by `Alice` and paid to the merchant Bob's `public key(address)`
+- There are actually at least two types of pointers in this graph
+  - The `Hash pointer` from a block to its previous block indicating where it extends from
+  - The `Hash pointer` of this `coin/transaction` to its previous transaction(where the coin came from)
+    - Recall Bitcoin is represented by a transaction
+    - Intuitively, a `coin` has a log of how it's transferred around the network
+- There's also a third pointer in this graph called `Merkle Trace` which we are not discussing right now.
+
+This is the blockchain right now. **So as far as Bob is concerned, he saw the transaction is completed and added to the chain, he may allow Alice to receive her goods in exchange for her bitcoin payment**. But this opens up vulnerability to double-spending attack.
+
+#### A double-spending attack
+
+![double_spending](double_spending.png)
+
+- If by random, `Alice` get to propose the next block;  `Alice` could propose a new block that looks like above.
+  - Ignore altogether the valid block on that contains the transaction to `Bob`.
+  - And instead, contains a pointer to the previous block instead a pointer to the valid block.
+  - In addition, it contains a transaction that has a transfer of coins, from `Alice` but not to `Bob`. Instead, it transfers to `A'` which is another address controlled by `Alice`.
+- This is a classic double spending pattern.
+  - What is going on here, is Alice now creates a new transaction that transfers that coin, instead of to Bob's address, to another address owned by her. 
+  - This is a completely different transaction, also with the same `Hash Pointer` going back to the same transaction referred earlier in the transaction to `Bob`.
+
+### How do we know if this double-spending attack is going to succeed or not?
+
+- Depends on which one of the green transaction and the red transaction is going to end up in the long-term consensus chain.
+
+- **Consensus Rule for honest nodes: Honest node always follow the policy of extending the longest valid branch.**
+
+- From a moral point of view, the green on is definitely the longest valid branch for other nodes to follow.
+
+- However, from a technical perspective, these two transactions are completely identical in validity. The nodes really have no way to tell which one is the *"legitimate"* transaction. (*"legitimate"* here is a moral judgement that we apply to it, so it's not a technical distinction)
+
+- Nodes often follow a heuristic of extending the block that they first heard about on the peer-to-peer network, but it's not a solid rule. And in any case, because of network latency, that could easily be the other way around. 
+
+- So if `Alice` get to propose the block contains the red transaction, it could get included into the consensus chain and becomes the longest valid chain. Even if some other node gets to propose, she could potentially hack/bribe to achieve her goals.
+
+  ![successful double spending attack](successful double spending attack.png)
+
+- So if `Alice` succeeded, her branch becomes the longest valid branch. Honest nodes will be more likely to add more blocks to `Alice's` branch and it will become more and more valid. 
+
+  At this point, `Alice` has succeeded her double spending attack. Her fraudulent transaction is successfully buried deep in the consensus chain.
+
+### How a Merchant like `Bob` can prevent this?
+
+![merchant's perspective](merchant's perspective.png)
+
+- From Bob's perspective he could confirm the transaction is successful on different circumstances.
+
+  1. He could confirm the transaction as long as it gets broadcasted. This is more foolhardy than our example above. This is called `0 confirmations`.
+
+  2. He could wait along and wait for 1 block with the successful legit transaction to be added to the consensus chain. This is called `1 confirmations`.
+
+  3. He could wait even longer, like `3 confirmations`. Because the node to propose is selected at random. It's incredibly hard for `Alice` to build a faulty chain with the same length as the legit chain. She would have to possess more and more malicious nodes to make her chain even 1 block longer.
+
+  4. Based on the sense that 
+
+     - most nodes are honest the fact 
+     - longer the chain is after the green transaction, harder to produce fraudulent chain
+
+     **<u>The double-spend probability decreases exponentially with number of confirmations</u>**.
+
+     - The most common heuristic among the bitcoin community agrees upon 6 confirmations as being enough.
+     - There is nothing really special about the number six. It's just a good trade-off between the amount of time you have to wait and your guarantee that the transaction you're interested in ends up on the consensus block chain. 
+
+### Recap
+
+- Protection against invalid transactions is cryptographic, but enforced by consensus.
+- Protection against double-spending is purely by consensus. Cryptography has nothing to say about this.
+- You are never 100% sure that a transaction that you're interested in is on the consensus branch. But this exponential probability guarantee is pretty good. After about six transactions, there's virtually no chance that you're gonna go wrong. 
+
+## Lecture 4 Incentives and Proof of Work
+

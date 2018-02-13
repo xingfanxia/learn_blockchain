@@ -1,6 +1,6 @@
-# Chapter 1 Basic Cryptography related
+# Lecture 1 Basic Cryptography related
 
-## Lecture 1 Hash function
+## Part 1 Hash function
 
 ### Hash function:
 
@@ -64,7 +64,7 @@
 
 ### Example: SHA-256 hash function
 
-![sha-256](sha-256.png)
+![sha-256](images/sha-256.png)
 
 Algo walkthrough:
 
@@ -75,7 +75,7 @@ Algo walkthrough:
 
 **Th.** If `c` is collision-free, then `SHA-256` is collsiion free.
 
-## Lecture 2 Hash pointers
+## Part 2 Hash pointers
 
 ### Hash pointer
 
@@ -90,13 +90,13 @@ With hash pointer, we can
 
 ### Key idea: Build data structure with hash pointers
 
-#### Example: Linkedlist with Hash pointers (blockchain)![ll_hashpointers](ll_hashpointers.png)
+#### Example: Linkedlist with Hash pointers (blockchain)![ll_hashpointers](images/ll_hashpointers.png)
 
 - we can build temper-evident log (If someone mess with data earlier we can detect it)
 
 #### Example: binary tree with hash pointers (Merkle tree)
 
-![merkle tree](merkle tree.png)
+![merkle tree](images/merkle tree.png)
 
 - Advantages:
   - Holds many items but only need to remember the root hash
@@ -108,7 +108,7 @@ With hash pointer, we can
 
 - Can use hash pointers in any pointer-based data structure that has not cycles
 
-## Lecture 3 Digital Signatures
+## Part 3 Digital Signatures
 
 ### Features of Signatures
 
@@ -148,7 +148,7 @@ isValid := verify(pk, message, sig)
   - relies on extremely complicated maths
   - good randomness is extremely essential for ECDSA
 
-## Lecture 4 Public Keys as Identities
+## Part 4 Public Keys as Identities
 
 ### Useful trick: `pulic key == an identity`
 
@@ -177,7 +177,7 @@ isValid := verify(pk, message, sig)
 - But observer can link together an address's activity over time, make inferences
 - Will talk this later
 
-## Lecture 5 A simple Cryptocurrency
+## Part 5 A simple Cryptocurrency
 
 ### Goofy Coin: Simplest Cryptocurrency
 
@@ -185,25 +185,25 @@ isValid := verify(pk, message, sig)
 
 - Goofy can create new coins that belongs to him
 
-  ![goofy_create_coin](goofy_create_coin.png)
+  ![goofy_create_coin](images/goofy_create_coin.png)
 
   `CreateCoin[uuid]` singed by `pk_goof`
 
 - A coin's owner can spend it
 
-  ![goofy_spend_coin](goofy_spend_coin.png)
+  ![goofy_spend_coin](images/goofy_spend_coin.png)
 
   - make a statement `pay to pk_alice` with hash pointer signed by `pk_goofy`
 
 - The recipient can pass on the coin again
 
-  ![pass_along](pass_along.png)
+  ![pass_along](images/pass_along.png)
 
 #### Problems
 
 double-spending attack (one of the major design challenges)
 
-![double-spending attack](double-spending attack.png)
+![double-spending attack](images/double-spending attack.png)
 
 - both `Bob` and `Chuck` has a valid claim on the coin
 
@@ -215,7 +215,7 @@ double-spending attack (one of the major design challenges)
 
 - Scrooge publishes a history of all transactions(a blockchain signed by Scrooge)
 
-  ![scrooge_blockchain](scrooge_blockchain.png)
+  ![scrooge_blockchain](images/scrooge_blockchain.png)
 
 - Optimization: put multiple transactions in the same block
 
@@ -223,11 +223,11 @@ double-spending attack (one of the major design challenges)
 
 - New `CreateCoins` transaction
 
-  ![createCoins transaction](createCoins transaction.png)
+  ![createCoins transaction](images/createCoins transaction.png)
 
 - New `PayCoin` transaction: 
 
-  ![PayCoins](PayCoins.png)
+  ![PayCoins](images/PayCoins.png)
 
   - consumes some coins and creates new coins of the same total value
   - Valid if
@@ -262,9 +262,9 @@ double-spending attack (one of the major design challenges)
 
 
 
-# Chapter 2 How Bitcoin achieves Decentralization
+# Lecture 2 How Bitcoin achieves Decentralization
 
-## Lecture 1 Centralization vs. Decentralization
+## Part 1 Centralization vs. Decentralization
 
 ### Decentralization is not "all-or-nothing"
 
@@ -298,7 +298,7 @@ double-spending attack (one of the major design challenges)
 
   Core developers trusted by community, they have a lot of power
 
-## Lecture 2 Distributed Consensus
+## Part 2 Distributed Consensus
 
 ### Bitcoin's key challenge: <u>Distributed Consensus</u>
 
@@ -320,7 +320,7 @@ double-spending attack (one of the major design challenges)
 
 ### Bitcoin is a peer-to-peer system
 
-![bitcoin_p2p](bitcoin_p2p.png)
+![bitcoin_p2p](images/bitcoin_p2p.png)
 
 - When `Alice` wants to pay Bob:
   She broadcasts the transaction to all Bitcoin nodes
@@ -334,7 +334,7 @@ double-spending attack (one of the major design challenges)
 
 ### How consensus "<u>could</u>" work in Bitcoin
 
-![consensus_candidate](consensus_candidate.png)
+![consensus_candidate](images/consensus_candidate.png)
 
 At any given time:
 
@@ -394,7 +394,7 @@ Bitcoin does not quite solve **<u>Distributed Consensus</u>** Problem in a gener
     - But even at the end of that time, you're not a 100% sure that a transaction or a block that you're interested in has made it into the consensus block chain. Instead, as time goes on, your probability goes up higher and higher. And the probability that you're wrong in making an assumption about a transaction goes down exponentially. 
     - So that's the kind of inherently probabilistic guarantee that Bitcoin gives you. And that's why it's able to completely get around these traditional impossibility results on distributed consensus protocols. 
 
-## Lecture 3 Consensus without Identity: the Block Chain
+## Part 3 Consensus without Identity: the Block Chain
 
 ### Why identity?
 
@@ -449,7 +449,7 @@ Suppose this is `Alice` is buying some merchant from merchant `Bob`  and the pay
 
  A valid transaction could look like this:
 
-![legit_transaction](legit_transaction.png)
+![legit_transaction](images/legit_transaction.png)
 
 - Alice is paying Bob with a bitcoin $C_A$ signed by `Alice` and paid to the merchant Bob's `public key(address)`
 - There are actually at least two types of pointers in this graph
@@ -463,7 +463,7 @@ This is the blockchain right now. **So as far as Bob is concerned, he saw the tr
 
 #### A double-spending attack
 
-![double_spending](double_spending.png)
+![double_spending](images/double_spending.png)
 
 - If by random, `Alice` get to propose the next block;  `Alice` could propose a new block that looks like above.
   - Ignore altogether the valid block on that contains the transaction to `Bob`.
@@ -487,7 +487,7 @@ This is the blockchain right now. **So as far as Bob is concerned, he saw the tr
 
 - So if `Alice` get to propose the block contains the red transaction, it could get included into the consensus chain and becomes the longest valid chain. Even if some other node gets to propose, she could potentially hack/bribe to achieve her goals.
 
-  ![successful double spending attack](successful double spending attack.png)
+  ![successful double spending attack](images/successful double spending attack.png)
 
 - So if `Alice` succeeded, her branch becomes the longest valid branch. Honest nodes will be more likely to add more blocks to `Alice's` branch and it will become more and more valid. 
 
@@ -495,7 +495,7 @@ This is the blockchain right now. **So as far as Bob is concerned, he saw the tr
 
 ### How a Merchant like `Bob` can prevent this?
 
-![merchant's perspective](merchant's perspective.png)
+![merchant's perspective](images/merchant's perspective.png)
 
 - From Bob's perspective he could confirm the transaction is successful on different circumstances.
 
@@ -521,7 +521,7 @@ This is the blockchain right now. **So as far as Bob is concerned, he saw the tr
 - Protection against double-spending is purely by consensus. Cryptography has nothing to say about this.
 - You are never 100% sure that a transaction that you're interested in is on the consensus branch. But this exponential probability guarantee is pretty good. After about six transactions, there's virtually no chance that you're gonna go wrong. 
 
-## Lecture 4 Incentives and Proof of Work
+## Part 4 Incentives and Proof of Work
 
 ### Assumption of honesty is problematic
 
@@ -529,7 +529,7 @@ This is the blockchain right now. **So as far as Bob is concerned, he saw the tr
 
 - Can we give nodes incentives to behave honestly?
 
-  ![honesty_incentive](honesty_incentive.png)
+  ![honesty_incentive](images/honesty_incentive.png)
 
   - Penalize nodes that create problematic blocks?
     - Nodes don't have identity, no way to chase them and penalize
@@ -550,7 +550,7 @@ Creator of block gets to
 
 - Bitcoin supply
 
-  ![Bitcoin Supply](/Users/xingfanxia/blockchain/Princeton Course/bitcoin_supply.png)
+  ![Bitcoin Supply](images/bitcoin_supply.png)
 
   - The slope of the supply curve halts every 4 years
   - This ends up as a geometric sequence with a final finite sum
@@ -589,7 +589,7 @@ Resource choices:
 
 ### Hash puzzles
 
-![hash_puzzles](hash_puzzles.png)
+![hash_puzzles](images/hash_puzzles.png)
 
 - To create block, it is required to find a `nonce` s.t.
 - `H(nonce|prev_hash|tx|tx|....|tx)` is in a very small subset of the entire output space of the hash function
@@ -614,12 +614,97 @@ Resource choices:
 
 - **<u>Key security assumption</u>**: Attacks infeasible if **<u>majority</u>** of miners **<u>weighted by hash power</u>** follow the protocol (aka honest)
 
-  ![hash_puzzle distribution](hash_puzzle distribution.png)
+  ![hash_puzzle distribution](images/hash_puzzle distribution.png)
 
 #### Property 3: trivial to verify
 
 - nonce must be published as part of the block
 - So other miners can verify that `H(nonce|prev_hash|tx|tx|....|tx) in target`
 
-## Lecture 5 Putting It All Together
+## Part 5 Putting It All Together
 
+### Mining Economics
+
+![mining_economics](images/mining_economics.png)Complications:
+
+- Fixed vs. variable costs
+- Reward depends on global hash rate
+- Also exchange value of rewarded bitcoin in terms of dollars for example is fluctuating
+- Whether profitable is a very complicated game theory problem
+
+### Recap
+
+- **Identities:**
+  - Any time any user can make any number of pseudonymous key pair as identities.
+- **Transactions:**
+  - Basically messages that are broadcast to the bitcoin p2p network.
+  - Which are instructions to transfer a coin from one address to another. 
+- **Coin:**
+  - Really is just a chain of transactions.
+- **P2P network:**
+  - **Goal:** propagate all new transactions to all the Bitcoin peer nodes as well as new blocks to the Bitcoin peer nodes.
+  - The real security of the system doesn't come from the perfection of the P2P network.
+  - Nevertheless, the underlying assumption is that the network is quite unreliable.
+  - Security comes from blockchain and consensus protocol.
+- **Block chain & consensus Protocol**
+  - Your transaction to be in the block chain is that it achieves a lot of confirmations. 
+  - It's not a fixed number, 6 is a commonly used heuristic, but the more confirmations your transaction has received, the more blocks are found that extend the block that contained your transaction, the more certain you can be that your transaction was part of the consensus chain. 
+  - A variety of **orphan blocks**, blocks that don't make it to the consensus chain.  Can be interpreted as different possibilities:
+    - An invalid transaction
+    - A double-spend attempt
+    - A network latency residue (t could simply represent the fact that there is latency in the network, and two miners competing to solve this proof of work puzzle. Simply ended up finding new blocks within just a few seconds of each other. And, so both of these blocks were broadcast nearly simultaneously onto the network. )
+- **Hash puzzles & mining**
+  - So another subtle point here is that if Alice and Bob were two different miners, and Alice has 100 times as much computing power as Bob. What that means is, not that Alice will always win the race against Bob to find the next block, but instead, Alice and Bob have a ratio, a probability ratio, of finding the next block in the proportion 100 to 1. So in the long term Bob will find, on average, 1% of the blocks that Alice does. 
+  -  Miners are a special type of nodes that bother to compete in this game of creating new blocks and they're rewarded for their efforts in terms of Bitcoins.
+  - And we expect that miners are going to be typically somewhere near the economic equilibrium of the expenditure that they incur, in terms of hardware and electricity, being somewhere equal to the rewards that they obtain in terms of the new block creation reward and the transaction fee based rewards.
+
+### Bitcoin has three types of consensus
+
+- Value
+  - Like exchange rate in fiat currencies
+- State (blockchain)
+  - Which transaction are valid
+  - Which transaction actually happened
+  - Ownership of bitcoin is based on consensus (other nodes think someone owns it)
+- Rules (of the system)
+  - When the rule of system needs to change
+  - Soft forks 
+  - Hard forks
+
+### Bitcoin is <u>bootstrapped</u> 
+
+![bootstrap](images/bootstrap.png)
+
+- Let's start from the security of the block chain. So obviously we want the block chain to be secure for Bitcoin to be a viable currency. But, what is necessary for the block chain to be secure? What this means is that an adversary shouldn't be able to overwhelm the consensus process. Shouldn't be able to create a lot of nodes and take over 50% or more of the new block creation.
+- But a prerequisite for that is a healthy mining ecosystem made up of largely honest protocol following nodes. So that's a prerequisite for security of the block chain.
+- But miners are only incentivized to mining if the exchange rate of Bitcoin is pretty high.
+- But what ensures a high and stable value of the currency? That can only happen if, users in general, people who want to buy Bitcoins, have trust in the security of the block chain. Because if they believe that the network could be overwhelmed at any moment by an attacker then Bitcoin is not going to have a lot of value as a currency.
+-  So there is this interlocking interdependence between these three things.
+
+### What can a "51% attacker"(Consensus Suberter) do?
+
+- Steal coins from existing address?
+  - **Not possible.** 
+    - Even if the invalid branch makes it self the longest branch. Honest nodes will not approve and keep on mining valid blocks.
+    - Creating a **<u>fork</u>** in blockchain.
+    - A merchant running a honest node can simply ignore the longest branch as it contains a invalid transaction. (crypto and signature don't checkout)
+  - Only if subverting both consensus and cryptography will succeed.
+- Suppress soem transactions?
+  - From the blockchain
+    - **Possible**
+      - Since he controls the consensus, he can skimpy refuse any new blocks contain that transaction
+      - also refuse build upon blocks that contain such transactions.
+  - From the P2P network
+    - **Impossible**
+      - Assume the attacker doesn't fully control the network, can't prevent transaction being broadcasted to the network
+- Change the block reward (Rule of the system)
+  - **Impossible**
+  - Doesn't control the source software every node is using.
+- Destroy the confidence of Bitcoin
+  - **Possible**
+  - **Main practical attack**
+
+### Remaining questions
+
+- How do we get from consensus to currency?
+- What else can we do with consensus?

@@ -523,3 +523,103 @@ This is the blockchain right now. **So as far as Bob is concerned, he saw the tr
 
 ## Lecture 4 Incentives and Proof of Work
 
+### Assumption of honesty is problematic
+
+- Nodes have financial incentives to subvert the protocols for their own gains
+
+- Can we give nodes incentives to behave honestly?
+
+  ![honesty_incentive](honesty_incentive.png)
+
+  - Penalize nodes that create problematic blocks?
+    - Nodes don't have identity, no way to chase them and penalize
+  - Can we reward nodes that create valid blocks?
+    - Yes.
+
+### Incentives in Bitcoin
+
+#### Incentive 1: Block reward
+
+Creator of block gets to
+
+- include **<u>special coin-creation transaction</u>** in the block
+
+- choose recipient address of this transaction
+
+- Value is fixed: currently 25 BTC, halves every 4 years (currently phase 2)
+
+- Bitcoin supply
+
+  ![Bitcoin Supply](/Users/xingfanxia/blockchain/Princeton Course/bitcoin_supply.png)
+
+  - The slope of the supply curve halts every 4 years
+  - This ends up as a geometric sequence with a final finite sum
+  - Bitcoin is only created this way(reward for building new blocks that ends up in the consensus chain)
+
+**Block creator gets to "collect" their rewards only if their block ends up on the long-term consensus branch.** (The coin creation transaction is only valid if it ends up on the long-term consensus branch)
+
+#### Incentive 2: Transaction value
+
+- Creator of transaction can choose to make the output value less than input value
+- Remainder is a transaction fee and goes to block creator
+- Purely voluntary, like a tip
+- How the environment will evolve is interesting game theory
+
+### Remaining problems
+
+1. How to pick a truly **<u>random</u>** node?
+2. How to avoid a free-for-all due to rewards? (Everyone runs a block try to get the block creation reward)
+3. How to prevent Sybil attacks?
+
+### One same solution to these remaining problems?
+
+To approximate selecting a random node:
+
+- select nodes in proportion to a resource that no one can monopolize(we hope)
+
+Resource choices:
+
+- Select a node in proportion to computing power: `proof-of-work`
+- Select a node in proportion to ownership of the currency: `proof-of-stake`
+
+### Proof-of-work (Intentions)
+
+- Allow nodes to compete with each other with their computing power, result in nodes automatically getting picked in proportion to their computing power
+- Make it moderately hard to create new identities(nodes)
+
+### Hash puzzles
+
+![hash_puzzles](hash_puzzles.png)
+
+- To create block, it is required to find a `nonce` s.t.
+- `H(nonce|prev_hash|tx|tx|....|tx)` is in a very small subset of the entire output space of the hash function
+- Therefore, if our hash function is secure enough: only way to succeed is to try enough nonces until you get lucky.
+- Thus we made it moderately difficult to create new blocks.
+- Completely does away with the requirement for somebody somehow to pick a random node.
+- Instead, nodes are simply all the time independently competing to solve this puzzle. Once in a while, some node will get lucky and find a valid `nonce` and that node gets to propose the next block.
+
+### PoW properties
+
+#### Property 1: difficult to compute
+
+- As of Aug 2014: about $10^{20}$ hashes per block, this is a humongous number
+- So only some nodes bother to compete — miners 
+
+#### Property 2: parametrizable cost
+
+- Nodes automatically recalculates the target space of PoW every two weeks based on the entire network's global computing power s.t. a fixed rate output of blocks
+-  Goal: Average time between block creations = 10 minutes, a efficiency concern
+- `Prob(alice wins next block) = fraction of global hash power she controls`
+
+
+- **<u>Key security assumption</u>**: Attacks infeasible if **<u>majority</u>** of miners **<u>weighted by hash power</u>** follow the protocol (aka honest)
+
+  ![hash_puzzle distribution](hash_puzzle distribution.png)
+
+#### Property 3: trivial to verify
+
+- nonce must be published as part of the block
+- So other miners can verify that `H(nonce|prev_hash|tx|tx|....|tx) in target`
+
+## Lecture 5 Putting It All Together
+

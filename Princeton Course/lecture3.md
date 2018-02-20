@@ -193,4 +193,180 @@ If we have no errors, we simply return True. Every Bitcoin script has only 2 out
 
 ### Example 2: Green addresses
 
-- PROBLEM: Alice wants to pay bob. Bob can't wait 6 verifications to guard against double-spends or is offline completely. 
+- **PROBLEM: Alice wants to pay bob. Bob can't wait 6 verifications to guard against double-spends or is offline completely.** 
+
+![green_address](green_address.png)
+
+- Trust a third party `Bank` to transfer the payment
+
+### Example 3: Efficient Micro-payments
+
+- **PROBLEM:** Alice wants to pay Bob for each minute of phone service. She doesn't want to incur a transaction fee every time.
+
+- Combine small payments into a big new payment![micropayments](micropayments.png)
+
+- All these transactions could be double spends if signed by both Alice and Bob
+
+- Bob sign only the last transaction if Bob is honest
+
+- What if Bob never signs? **This is when `lock_time` comes into play**
+
+  **`loc_time` is the block index or real-word timestamp before which this transaction can't be published**, like a timed refund.
+
+  ![lock_time](lock_time.png)
+
+### More advanced scripts
+
+- Multiplayer lotteries
+- Hash pre-image challenges
+- Coin-Swapping protocols
+  - More on this in lecture on anonymity!
+- "Smart contracts"
+
+## Part 4 Bitcoin Blocks
+
+### Why bundle transactions together
+
+- Single unit of work for miners
+- Limit length of hash-chain of blocks
+  - Faster to verify history
+
+### Bitcoin block structure (high-level)
+
+![block structure](block structure.png)
+
+### Close-up look of a Block
+
+![closeup of a block](closeup of a block.png)
+
+#### Block header
+
+![block_header](block_header.png)
+
+- Here the hash of block has to start with a number of 0s
+- Only header is hashed during mining
+- Only includes the root node of the Merkle tree
+
+#### Coinbase transaction
+
+![coinbase](coinbase.png)
+
+- **`Coinbase`**: a special parameter to put any arbitrary info, no limit what miners put there
+
+## Part 5 The Bitcoin Network
+
+### Bitcoin P2P network
+
+- Ad-hoc protocol (runs on TCP port `8333`)
+- Ad-hoc network with random topology
+- All nodes are equal
+- New nodes can join at any time
+- Forget non-responding nodes after 3hr
+
+### Joining the Bitcoin P2P network
+
+![bitcoin p2p](bitcoin p2p.png)
+
+1. Find a `seed node` in the network
+2. Talk to `seed node` and request its peers
+3. Talk to those peers recursively until you have a list of nodes to connect to
+4. Will end up with a random set o nodes connected to
+
+### Transaction propagation (flooding)
+
+![transaction_propagation](transaction_propagation.png)
+
+- Each node has a pool of transactions they heard about
+- Suppose node 4 heard a transaction `From Alice to Bob`
+- Node 4 talks to its peers and this is carried on recursively
+- It won't loop around the network forever as transaction can be uniquely identified by hash
+- This is often referred as the `gossip protocol`
+
+### Node: should I relay a proposed transaction?
+
+- Transaction valid with current blockchain
+
+- (default) script matches a whitelist
+
+  - Avoid unusual scripts
+
+- Haven't seen before
+
+  - Avoid infinite loops
+
+- Doesn't conflict with others I've relayed
+
+  - First come first served!
+
+
+  - Avoid double-spends
+
+- These `avoids` are just sanity checks, some nodes **may ignore them**
+
+### Nodes may differ on transaction pool (Race conditions)
+
+![different transaction pool](different transaction pool.png)
+
+Transactions or blocks may conflict
+
+- Default behavior: accept what you hear first
+- Network position matters
+- When one of the conflicting  transactions made into the block then other nodes know their transactions are never going to make it to the block, they will discard it (as they are double spends now)
+- **Miners may implement other logic**
+  - Stay tune for lecture on mining.
+
+### Block propagation nearly identical
+
+Relay a new block when you hear it if :
+
+- Block meets the hash target
+- Block has all valid transactions
+  - Run all scripts even if you wouldn't relay
+- Block builds on current longest chain
+  - Avoid forks
+
+### Propagation Times
+
+![block propagation times](block propagation times.png)
+
+- Average at 30s which is really slow in Internet
+- Node Topology is not optimized for speed
+- Decentralized is ensured but sacrificed in terms of speed/efficiency
+
+### How big is the network
+
+- Impossible to measure exactly
+
+- Estimates: up to 1M IP address/month
+
+- Only about 5~10k full nodes
+
+  - Permanently connected
+  - Fully-validate
+    - Permanently connected
+    - Store entire block chain
+    - Active network to hear and forward every node/transaction
+    - Tracking the UTXO set
+      - Stands for Unspent Transaction Output
+        - Everything else can be sorted on disk
+      - Currently ~12M UTXOs
+        - Out of 44M transactions
+      - Small enough to fit into RAM (less than 1GB for now)
+  - This number is dropping
+
+- Vast majority are instead `lightweight nodes`, or `simple payment verification clients` (often referred as `Thin/SPV clients ` )
+
+  - Some personal wallet can just be `simple payment verification clients`, only checking if transactions coming to you are valid
+  - Store block headers only
+  - Request transactions as needed
+    - To verify incoming payment
+  - Trust fully-validating nodes
+    - Not bad security tradeoff
+    - As miners will always make sure the node is valid so it has a chance to get included in the main chain
+  - 1000x cost savings (23MB v.s. 20GB)
+
+- Size of entire blockchain is about 20GB
+
+  ![blockchain size](blockchain size.png)
+
+  ​

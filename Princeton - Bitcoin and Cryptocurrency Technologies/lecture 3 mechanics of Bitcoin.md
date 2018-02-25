@@ -1,3 +1,5 @@
+[TOC]
+
 # Mechanics of Bitcoin
 
 ## Part 1 Bitcoin Transactions
@@ -369,4 +371,72 @@ Relay a new block when you hear it if :
 
   ![blockchain size](blockchain size.png)
 
-  ​
+
+## Part 6 Limitations & Improvements
+
+### Hard-coded limits in Bitcoin 
+
+- 10 min average creation time per block
+- 1M bytes in one block
+- 20,000 signature operatios per block
+- These affect enomoic balance of power too much to change now, even though it might not be a wise choice.
+  - 100M *satoshi* per bitcoin (1 bitcoin can be divided into the 100M of smaller units called satoshi)
+  - 21M total bitcoins maximum
+  - mining reward of $\frac{50}{n^i}$ bitcoins where $i$ increases every 4 years
+
+### Throughout limits in Bitcoin
+
+- 1M bytes/block (10min)
+- \> 250 bytes per transaction
+- 7 transactions per sec (which is a really small volume)
+  - compare to
+  - VISA: 2000~10000 transactions per sec
+  - Paypal: 50~100 transactions per sec
+
+### Cryptographic limits
+
+- Only 1 signature algorithm (ECDSA/P256)
+- Hardcoded hash functions
+- Crypto primitives might break by 2040
+
+### "Hard-forking" changes to Bitcoin
+
+- **Def:** So what would it look to make a change like this where we just said, we had a problem with Bitcoin, we're going to release a new version of the software, and everybody is going to have to switch. This is referred as a `hard-forking` change.
+- We can't be sure that every node in the network would upgrade
+- Some nodes might refuse the new block and hence creates a diverge
+- ![hard_fork](hard_fork.jpg)
+
+### Soft forks
+
+- Observation: we can add new features which only limit the set of valid transactions. i.e. only more strict and limiting rules
+- Need majority of nodes to enforce new rules
+- Old nodes will approve.
+- Risk: old nodes might min now-invalid blocks which will be rejected by the network
+
+ ### Soft fork example: pay to script hash
+
+![soft fork example](soft fork example.png)
+
+### Soft fork possiblities
+
+- New signature schemes 
+- Extra per-block metadata
+  - Shove in the coinbase parameter
+  - Commit to UTXO tree in each block
+
+### Hard forks
+
+- New op codes
+- Changes to size limits
+- Changes to mining rate
+- Many small bug fixes
+
+**<u>Currently seem very unlikely to happen, but will get solved in other alternative coins!</u>**
+
+### Human Beings aren't Bitcoin nodes
+
+- How do people interact with the network?
+- How do people exchange bitcoins for cash?
+- How do people securely store bitcoins?
+
+**<u>Currency needs to work for people, not for nodes or softwares.</u>**

@@ -1,3 +1,5 @@
+[TOC]
+
 # Lecture 1 Basic Cryptography related
 
 ## Part 1 Hash function
@@ -90,7 +92,9 @@ With hash pointer, we can
 
 ### Key idea: Build data structure with hash pointers
 
-#### Example: Linkedlist with Hash pointers (blockchain)![ll_hashpointers](images/ll_hashpointers.png)
+#### Example: Linkedlist with Hash pointers (blockchain)
+
+![ll_hashpointers](images/ll_hashpointers.png)
 
 - we can build temper-evident log (If someone mess with data earlier we can detect it)
 
@@ -608,7 +612,7 @@ Resource choices:
 #### Property 2: parametrizable cost
 
 - Nodes automatically recalculates the target space of PoW every two weeks based on the entire network's global computing power s.t. a fixed rate output of blocks
--  Goal: Average time between block creations = 10 minutes, a efficiency concern
+- Goal: Average time between block creations = 10 minutes, a efficiency concern
 - `Prob(alice wins next block) = fraction of global hash power she controls`
 
 
@@ -655,7 +659,7 @@ Resource choices:
     - A network latency residue (t could simply represent the fact that there is latency in the network, and two miners competing to solve this proof of work puzzle. Simply ended up finding new blocks within just a few seconds of each other. And, so both of these blocks were broadcast nearly simultaneously onto the network. )
 - **Hash puzzles & mining**
   - So another subtle point here is that if Alice and Bob were two different miners, and Alice has 100 times as much computing power as Bob. What that means is, not that Alice will always win the race against Bob to find the next block, but instead, Alice and Bob have a ratio, a probability ratio, of finding the next block in the proportion 100 to 1. So in the long term Bob will find, on average, 1% of the blocks that Alice does. 
-  -  Miners are a special type of nodes that bother to compete in this game of creating new blocks and they're rewarded for their efforts in terms of Bitcoins.
+  - Miners are a special type of nodes that bother to compete in this game of creating new blocks and they're rewarded for their efforts in terms of Bitcoins.
   - And we expect that miners are going to be typically somewhere near the economic equilibrium of the expenditure that they incur, in terms of hardware and electricity, being somewhere equal to the rewards that they obtain in terms of the new block creation reward and the transaction fee based rewards.
 
 ### Bitcoin has three types of consensus
@@ -679,7 +683,7 @@ Resource choices:
 - But a prerequisite for that is a healthy mining ecosystem made up of largely honest protocol following nodes. So that's a prerequisite for security of the block chain.
 - But miners are only incentivized to mining if the exchange rate of Bitcoin is pretty high.
 - But what ensures a high and stable value of the currency? That can only happen if, users in general, people who want to buy Bitcoins, have trust in the security of the block chain. Because if they believe that the network could be overwhelmed at any moment by an attacker then Bitcoin is not going to have a lot of value as a currency.
--  So there is this interlocking interdependence between these three things.
+- So there is this interlocking interdependence between these three things.
 
 ### What can a "51% attacker"(Consensus Suberter) do?
 

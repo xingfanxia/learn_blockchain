@@ -66,7 +66,7 @@
 
 ### Example: SHA-256 hash function
 
-![sha-256](images/sha-256.png)
+![sha-256](lecture_1n2_images/sha-256.png)
 
 Algo walkthrough:
 
@@ -94,13 +94,13 @@ With hash pointer, we can
 
 #### Example: Linkedlist with Hash pointers (blockchain)
 
-![ll_hashpointers](images/ll_hashpointers.png)
+![ll_hashpointers](lecture_1n2_images/ll_hashpointers.png)
 
 - we can build temper-evident log (If someone mess with data earlier we can detect it)
 
 #### Example: binary tree with hash pointers (Merkle tree)
 
-![merkle tree](images/merkle tree.png)
+![merkle tree](lecture_1n2_images/merkle tree.png)
 
 - Advantages:
   - Holds many items but only need to remember the root hash
@@ -189,25 +189,25 @@ isValid := verify(pk, message, sig)
 
 - Goofy can create new coins that belongs to him
 
-  ![goofy_create_coin](images/goofy_create_coin.png)
+  ![goofy_create_coin](lecture_1n2_images/goofy_create_coin.png)
 
   `CreateCoin[uuid]` singed by `pk_goof`
 
 - A coin's owner can spend it
 
-  ![goofy_spend_coin](images/goofy_spend_coin.png)
+  ![goofy_spend_coin](lecture_1n2_images/goofy_spend_coin.png)
 
   - make a statement `pay to pk_alice` with hash pointer signed by `pk_goofy`
 
 - The recipient can pass on the coin again
 
-  ![pass_along](images/pass_along.png)
+  ![pass_along](lecture_1n2_images/pass_along.png)
 
 #### Problems
 
 double-spending attack (one of the major design challenges)
 
-![double-spending attack](images/double-spending attack.png)
+![double-spending attack](lecture_1n2_images/double-spending attack.png)
 
 - both `Bob` and `Chuck` has a valid claim on the coin
 
@@ -219,7 +219,7 @@ double-spending attack (one of the major design challenges)
 
 - Scrooge publishes a history of all transactions(a blockchain signed by Scrooge)
 
-  ![scrooge_blockchain](images/scrooge_blockchain.png)
+  ![scrooge_blockchain](lecture_1n2_images/scrooge_blockchain.png)
 
 - Optimization: put multiple transactions in the same block
 
@@ -227,11 +227,11 @@ double-spending attack (one of the major design challenges)
 
 - New `CreateCoins` transaction
 
-  ![createCoins transaction](images/createCoins transaction.png)
+  ![createCoins transaction](lecture_1n2_images/createCoins transaction.png)
 
 - New `PayCoin` transaction: 
 
-  ![PayCoins](images/PayCoins.png)
+  ![PayCoins](lecture_1n2_images/PayCoins.png)
 
   - consumes some coins and creates new coins of the same total value
   - Valid if
@@ -324,7 +324,7 @@ double-spending attack (one of the major design challenges)
 
 ### Bitcoin is a peer-to-peer system
 
-![bitcoin_p2p](images/bitcoin_p2p.png)
+![bitcoin_p2p](lecture_1n2_images/bitcoin_p2p.png)
 
 - When `Alice` wants to pay Bob:
   She broadcasts the transaction to all Bitcoin nodes
@@ -338,7 +338,7 @@ double-spending attack (one of the major design challenges)
 
 ### How consensus "<u>could</u>" work in Bitcoin
 
-![consensus_candidate](images/consensus_candidate.png)
+![consensus_candidate](lecture_1n2_images/consensus_candidate.png)
 
 At any given time:
 
@@ -453,7 +453,7 @@ Suppose this is `Alice` is buying some merchant from merchant `Bob`  and the pay
 
  A valid transaction could look like this:
 
-![legit_transaction](images/legit_transaction.png)
+![legit_transaction](lecture_1n2_images/legit_transaction.png)
 
 - Alice is paying Bob with a bitcoin $C_A$ signed by `Alice` and paid to the merchant Bob's `public key(address)`
 - There are actually at least two types of pointers in this graph
@@ -467,7 +467,7 @@ This is the blockchain right now. **So as far as Bob is concerned, he saw the tr
 
 #### A double-spending attack
 
-![double_spending](images/double_spending.png)
+![double_spending](lecture_1n2_images/double_spending.png)
 
 - If by random, `Alice` get to propose the next block;  `Alice` could propose a new block that looks like above.
   - Ignore altogether the valid block on that contains the transaction to `Bob`.
@@ -491,7 +491,7 @@ This is the blockchain right now. **So as far as Bob is concerned, he saw the tr
 
 - So if `Alice` get to propose the block contains the red transaction, it could get included into the consensus chain and becomes the longest valid chain. Even if some other node gets to propose, she could potentially hack/bribe to achieve her goals.
 
-  ![successful double spending attack](images/successful double spending attack.png)
+  ![successful double spending attack](lecture_1n2_images/successful double spending attack.png)
 
 - So if `Alice` succeeded, her branch becomes the longest valid branch. Honest nodes will be more likely to add more blocks to `Alice's` branch and it will become more and more valid. 
 
@@ -499,7 +499,7 @@ This is the blockchain right now. **So as far as Bob is concerned, he saw the tr
 
 ### How a Merchant like `Bob` can prevent this?
 
-![merchant's perspective](images/merchant's perspective.png)
+![merchant's perspective](lecture_1n2_images/merchant's perspective.png)
 
 - From Bob's perspective he could confirm the transaction is successful on different circumstances.
 
@@ -533,7 +533,7 @@ This is the blockchain right now. **So as far as Bob is concerned, he saw the tr
 
 - Can we give nodes incentives to behave honestly?
 
-  ![honesty_incentive](images/honesty_incentive.png)
+  ![honesty_incentive](lecture_1n2_images/honesty_incentive.png)
 
   - Penalize nodes that create problematic blocks?
     - Nodes don't have identity, no way to chase them and penalize
@@ -554,7 +554,7 @@ Creator of block gets to
 
 - Bitcoin supply
 
-  ![Bitcoin Supply](images/bitcoin_supply.png)
+  ![Bitcoin Supply](lecture_1n2_images/bitcoin_supply.png)
 
   - The slope of the supply curve halts every 4 years
   - This ends up as a geometric sequence with a final finite sum
@@ -593,7 +593,7 @@ Resource choices:
 
 ### Hash puzzles
 
-![hash_puzzles](images/hash_puzzles.png)
+![hash_puzzles](lecture_1n2_images/hash_puzzles.png)
 
 - To create block, it is required to find a `nonce` s.t.
 - `H(nonce|prev_hash|tx|tx|....|tx)` is in a very small subset of the entire output space of the hash function
@@ -618,7 +618,7 @@ Resource choices:
 
 - **<u>Key security assumption</u>**: Attacks infeasible if **<u>majority</u>** of miners **<u>weighted by hash power</u>** follow the protocol (aka honest)
 
-  ![hash_puzzle distribution](images/hash_puzzle distribution.png)
+  ![hash_puzzle distribution](lecture_1n2_images/hash_puzzle distribution.png)
 
 #### Property 3: trivial to verify
 
@@ -629,7 +629,7 @@ Resource choices:
 
 ### Mining Economics
 
-![mining_economics](images/mining_economics.png)Complications:
+![mining_economics](lecture_1n2_images/mining_economics.png)Complications:
 
 - Fixed vs. variable costs
 - Reward depends on global hash rate
@@ -677,7 +677,7 @@ Resource choices:
 
 ### Bitcoin is <u>bootstrapped</u> 
 
-![bootstrap](images/bootstrap.png)
+![bootstrap](lecture_1n2_images/bootstrap.png)
 
 - Let's start from the security of the block chain. So obviously we want the block chain to be secure for Bitcoin to be a viable currency. But, what is necessary for the block chain to be secure? What this means is that an adversary shouldn't be able to overwhelm the consensus process. Shouldn't be able to create a lot of nodes and take over 50% or more of the new block creation.
 - But a prerequisite for that is a healthy mining ecosystem made up of largely honest protocol following nodes. So that's a prerequisite for security of the block chain.

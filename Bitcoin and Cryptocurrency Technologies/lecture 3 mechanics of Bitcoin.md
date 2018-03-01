@@ -16,7 +16,7 @@ Bitcoin consensus gives us:
 
 ### An account-based ledger (not Bitcoin)
 
-![account-based ledger](account-based ledger.png)
+![account-based ledger](lecture_3_images/account-based ledger.png)
 
 - We have to look over all transactions back there till the beginning of time to figure out if `Alice` has enough coins.
 - Even if we put some data structure to keep track of `Alice's` balance, there is a lot more housing keeping despite the blockchain itself.
@@ -24,7 +24,7 @@ Bitcoin consensus gives us:
 
 ### An transaction-based ledger (Bitcoin)
 
-![transaction-based ledger](transaction-based ledger.png)
+![transaction-based ledger](lecture_3_images/transaction-based ledger.png)
 
 - Always completely consume the input by giving an equal output.
 - Can trace back much easier by looking at the input pointer to check if the transaction is valid
@@ -32,26 +32,26 @@ Bitcoin consensus gives us:
 
 #### Joint Payments
 
-​	![joint_payments](joint_payments.png)
+​	![joint_payments](lecture_3_images/joint_payments.png)
 
 - Consume two inputs to joint pay `David`
 - So needs two signatures as came from two different people
 
 ### Real deal: a Bitcoin transaction(very very close version)
 
-![bitcoin transaction](bitcoin transaction.png)
+![bitcoin transaction](lecture_3_images/bitcoin transaction.png)
 
 #### Metadata
 
-![transaction_metadata](transaction_metadata.png)
+![transaction_metadata](lecture_3_images/transaction_metadata.png)
 
 #### Input
 
-![transaction_inputs](transaction_inputs.png)
+![transaction_inputs](lecture_3_images/transaction_inputs.png)
 
 #### Output
 
-![transaction_outputs](transaction_outputs.png)
+![transaction_outputs](lecture_3_images/transaction_outputs.png)
 
 ## Part 2 Bitcoin Scripts
 
@@ -144,7 +144,7 @@ If we have no errors, we simply return True. Every Bitcoin script has only 2 out
 
 #### Should senders specify scripts?
 
-![pay to hash](pay to hash.png)
+![pay to hash](lecture_3_images/pay to hash.png)
 
 - As consumers we want to the transaction is easy
 
@@ -166,7 +166,7 @@ If we have no errors, we simply return True. Every Bitcoin script has only 2 out
 - Benefits:
 
   - Removes the complexity of sender(consumer), only needs to send to an address
-  - Efficiency gains we will talk later![pay to script hash 2](pay to script hash 2.png)
+  - Efficiency gains we will talk later![pay to script hash 2](lecture_3_images/pay to script hash 2.png)
 
 ## Part 3 Applications of Bitcoin Scripts
 
@@ -197,7 +197,7 @@ If we have no errors, we simply return True. Every Bitcoin script has only 2 out
 
 - **PROBLEM: Alice wants to pay bob. Bob can't wait 6 verifications to guard against double-spends or is offline completely.** 
 
-![green_address](green_address.png)
+![green_address](lecture_3_images/green_address.png)
 
 - Trust a third party `Bank` to transfer the payment
 
@@ -205,7 +205,7 @@ If we have no errors, we simply return True. Every Bitcoin script has only 2 out
 
 - **PROBLEM:** Alice wants to pay Bob for each minute of phone service. She doesn't want to incur a transaction fee every time.
 
-- Combine small payments into a big new payment![micropayments](micropayments.png)
+- Combine small payments into a big new payment![micropayments](lecture_3_images/micropayments.png)
 
 - All these transactions could be double spends if signed by both Alice and Bob
 
@@ -215,7 +215,7 @@ If we have no errors, we simply return True. Every Bitcoin script has only 2 out
 
   **`loc_time` is the block index or real-word timestamp before which this transaction can't be published**, like a timed refund.
 
-  ![lock_time](lock_time.png)
+  ![lock_time](lecture_3_images/lock_time.png)
 
 ### More advanced scripts
 
@@ -235,15 +235,15 @@ If we have no errors, we simply return True. Every Bitcoin script has only 2 out
 
 ### Bitcoin block structure (high-level)
 
-![block structure](block structure.png)
+![block structure](lecture_3_images/block structure.png)
 
 ### Close-up look of a Block
 
-![closeup of a block](closeup of a block.png)
+![closeup of a block](lecture_3_images/closeup of a block.png)
 
 #### Block header
 
-![block_header](block_header.png)
+![block_header](lecture_3_images/block_header.png)
 
 - Here the hash of block has to start with a number of 0s
 - Only header is hashed during mining
@@ -251,7 +251,7 @@ If we have no errors, we simply return True. Every Bitcoin script has only 2 out
 
 #### Coinbase transaction
 
-![coinbase](coinbase.png)
+![coinbase](lecture_3_images/coinbase.png)
 
 - **`Coinbase`**: a special parameter to put any arbitrary info, no limit what miners put there
 
@@ -267,7 +267,7 @@ If we have no errors, we simply return True. Every Bitcoin script has only 2 out
 
 ### Joining the Bitcoin P2P network
 
-![bitcoin p2p](bitcoin p2p.png)
+![bitcoin p2p](lecture_3_images/bitcoin p2p.png)
 
 1. Find a `seed node` in the network
 2. Talk to `seed node` and request its peers
@@ -276,7 +276,7 @@ If we have no errors, we simply return True. Every Bitcoin script has only 2 out
 
 ### Transaction propagation (flooding)
 
-![transaction_propagation](transaction_propagation.png)
+![transaction_propagation](lecture_3_images/transaction_propagation.png)
 
 - Each node has a pool of transactions they heard about
 - Suppose node 4 heard a transaction `From Alice to Bob`
@@ -307,7 +307,7 @@ If we have no errors, we simply return True. Every Bitcoin script has only 2 out
 
 ### Nodes may differ on transaction pool (Race conditions)
 
-![different transaction pool](different transaction pool.png)
+![different transaction pool](lecture_3_images/different transaction pool.png)
 
 Transactions or blocks may conflict
 
@@ -329,7 +329,7 @@ Relay a new block when you hear it if :
 
 ### Propagation Times
 
-![block propagation times](block propagation times.png)
+![block propagation times](lecture_3_images/block propagation times.png)
 
 - Average at 30s which is really slow in Internet
 - Node Topology is not optimized for speed
@@ -369,7 +369,7 @@ Relay a new block when you hear it if :
 
 - Size of entire blockchain is about 20GB
 
-  ![blockchain size](blockchain size.png)
+  ![blockchain size](lecture_3_images/blockchain size.png)
 
 
 ## Part 6 Limitations & Improvements
@@ -404,7 +404,7 @@ Relay a new block when you hear it if :
 - **Def:** So what would it look to make a change like this where we just said, we had a problem with Bitcoin, we're going to release a new version of the software, and everybody is going to have to switch. This is referred as a `hard-forking` change.
 - We can't be sure that every node in the network would upgrade
 - Some nodes might refuse the new block and hence creates a diverge
-- ![hard_fork](hard_fork.jpg)
+- ![hard_fork](lecture_3_images/hard_fork.jpg)
 
 ### Soft forks
 
@@ -415,7 +415,7 @@ Relay a new block when you hear it if :
 
  ### Soft fork example: pay to script hash
 
-![soft fork example](soft fork example.png)
+![soft fork example](lecture_3_images/soft fork example.png)
 
 ### Soft fork possiblities
 
